@@ -7,9 +7,9 @@ registerApplication({
 });
 
 registerApplication({
-  name: "@estrategiahq/bo-accounts",
-  app: () => System.import('@estrategiahq/bo-accounts'),
-  activeWhen: "/accounts",
+  name: "@my/app2",
+  app: () => System.import('@my/app2'),
+  activeWhen: "/app2",
 });
 
 start();

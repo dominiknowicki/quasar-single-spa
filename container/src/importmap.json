@@ -8,6 +8,9 @@
     "quasar": "https://cdn.jsdelivr.net/npm/quasar@1.14.7/dist/quasar.common.min.js",
 
     "@my/application": "https://localhost:8080/app.js",
-    "@my/application/": "https://localhost:8080/"
+    "@my/application/": "https://localhost:8080/",
+
+    "@my/app2": "https://localhost:8090/app.js",
+    "@my/app2/": "https://localhost:8090/"
   }
 }

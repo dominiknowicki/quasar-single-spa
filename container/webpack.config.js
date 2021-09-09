@@ -22,6 +22,7 @@ module.exports = (env) => ({
   },
   devServer: {
     headers: {
+      "Access-Control-Allow-Methods": "*",
       "Access-Control-Allow-Origin": "*",
     },
     disableHostCheck: true,
