@@ -2,6 +2,14 @@
  * This file runs in a Node context (it's NOT transpiled by Babel), so use only
  * the ES6 features that are supported by your Node version. https://node.green/
  */
+const path = require('path')
+const cors = require('cors')
+const { name } = require('./package')
+const SystemJSPublicPathWebpackPlugin = require('systemjs-webpack-interop/SystemJSPublicPathWebpackPlugin')
+
+function resolve (...dirs) {
+  return path.join(__dirname, ...dirs)
+}
 
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli/quasar-conf-js
@@ -42,8 +50,12 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
-      vueRouterMode: "hash", // available values: 'hash', 'history'
-
+      vueRouterBase: 'app2', // must be the same as the container "activeWhen"
+      vueRouterMode: 'history',
+      scopeHoisting: true,
+      chainWebpack (config) {
+        config.entry('app2').add(resolve('src', 'single-spa-entry.js')) // This is the magic to make quasar work with single-spa
+      },
       // transpile: false,
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
@@ -62,18 +74,18 @@ module.exports = configure(function (ctx) {
 
       // https://v2.quasar.dev/quasar-cli/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
-      chainWebpack(chain) {
-        chain
-          .plugin("eslint-webpack-plugin")
-          .use(ESLintPlugin, [{ extensions: ["js", "vue"] }]);
-      },
+      // chainWebpack(chain) {
+      //   chain
+      //     .plugin("eslint-webpack-plugin")
+      //     .use(ESLintPlugin, [{ extensions: ["js", "vue"] }]);
+      // },
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
-      https: false,
-      port: 8080,
-      open: true, // opens browser window automatically
+      https: true, // Important if want to use hot reload. You MUST navigate to https://localhost:8080/app.js and bypass invalid certificate warning. Otherwise it won't work
+      port: 8090,
+      open: false, // opens browser window automatically
     },
 
     // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
